@@ -18,14 +18,14 @@ analyzeButton.addEventListener("click", async function() {
     // 3. (핵심!) Google API가 아닌, 우리 '서버 함수'를 호출합니다.
     try {
         const response = await fetch(
-            // 👇👇👇 호출 주소가 Google이 아닌 우리 서버입니다. 👇👇👇
+            //호출 주소가 Google이 아닌 우리 서버입니다
             `/.netlify/functions/analyze`, 
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // 👇👇👇 API 키 대신, 일기 내용을 보냅니다. 👇👇👇
+                //API 키 대신, 일기 내용을 보냅니다.
                 body: JSON.stringify({ diary: usersDiary }), 
             }
         );

@@ -1,7 +1,6 @@
-/* 페이지 전체에 적용될 기본 스타일 */
 body {
-    font-family: 'Arial', sans-serif; /* 깔끔한 폰트 */
-    background-color: #f4f7f6; /* 부드러운 회색 배경 */
+    font-family: 'Arial', sans-serif; 
+    background-color: #f4f7f6; 
     display: flex;
     justify-content: center; /* 내용을 가로 중앙에 배치 */
     align-items: center; /* 내용을 세로 중앙에 배치 */
@@ -9,25 +8,24 @@ body {
     margin: 0;
 }
 
-/* 모든 콘텐츠를 감싸는 흰색 박스 */
 .container {
     background-color: white;
     padding: 30px;
-    border-radius: 10px; /* 모서리를 둥글게 */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     width: 90%;
-    max-width: 600px; /* 너무 넓어지지 않게 최대 너비 설정 */
+    max-width: 600px;
     box-sizing: border-box; /* 패딩이 너비를 초과하지 않게 설정 */
 }
 
 h1 {
-    text-align: center; /* 제목 가운데 정렬 */
+    text-align: center;
     color: #333;
 }
 
 h2 {
     color: #555;
-    border-bottom: 2px solid #eee; /* 제목 아래 구분선 */
+    border-bottom: 2px solid #eee;
     padding-bottom: 5px;
 }
 
@@ -43,26 +41,24 @@ h2 {
     margin-bottom: 15px; /* 버튼과의 간격 */
 }
 
-/* 2. 분석 요청 버튼 스타일 */
 #analyze-button {
     width: 100%;
     padding: 15px;
-    background-color: #007bff; /* 파란색 계열 */
+    background-color: #007bff; 
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     font-weight: bold;
-    cursor: pointer; /* 마우스를 올리면 손가락 모양 */
+    cursor: pointer; 
     transition: background-color 0.2s; /* 부드러운 색상 변경 효과 */
 }
 
-/* 버튼에 마우스를 올렸을 때 */
 #analyze-button:hover {
-    background-color: #0056b3; /* 살짝 더 어두운 파란색 */
+    background-color: #0056b3;
 }
 
-/* 3. AI 분석 결과창 스타일 */
+
 #result {
     background-color: #f9f9f9;
     padding: 20px;
@@ -70,5 +66,5 @@ h2 {
     margin-top: 20px;
     min-height: 50px;
     color: #444;
-    line-height: 1.6; /* 줄 간격 */
+    line-height: 1.6;
 }
