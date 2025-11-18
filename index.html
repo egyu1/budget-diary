@@ -1,62 +1,101 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>충동구매 방지 가계부</title>
+    <title>절약 일기 (Dashboard)</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
 
-    <div class="container">
-        <h1>💸 충동구매 방지 가계부</h1>
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>📖 절약일기</h2>
+                <p>올해는 절약왕!</p>
+            </div>
+            
+            <nav class="menu">
+                <a href="#" class="active"><i class="fas fa-chart-pie"></i> 소비 통계</a>
+                <a href="#"><i class="fas fa-list"></i> 오늘의 지출</a>
+                <a href="#"><i class="fas fa-history"></i> 기록 리스트</a>
+            </nav>
 
-        <div class="input-group">
-            <input type="date" id="date-input">
+            <div class="sidebar-footer">
+                <button id="analyze-button" class="ai-btn">
+                    <i class="fas fa-robot"></i> AI 분석 요청
+                </button>
+            </div>
+        </aside>
 
-            <select id="category-input">
-                <option value="식비">🍚 식비</option>
-                <option value="쇼핑">🛍️ 쇼핑</option>
-                <option value="교통">🚌 교통</option>
-                <option value="취미">🎮 취미</option>
-                <option value="기타">🎸 기타</option>
-            </select>
+        <main class="main-content">
+            
+            <section class="card input-section">
+                <h3>✏️ 오늘의 소비 기록</h3>
+                <div class="input-group">
+                    <input type="date" id="date-input">
+                    
+                    <select id="category-input">
+                        <option value="식비">🍚 식비</option>
+                        <option value="쇼핑">🛍️ 쇼핑</option>
+                        <option value="교통">🚌 교통</option>
+                        <option value="취미">🎮 취미</option>
+                        <option value="기타">🎸 기타</option>
+                    </select>
+                    
+                    <input type="text" id="item-input" placeholder="품목 (예: 커피)">
+                    <input type="number" id="price-input" placeholder="금액">
+                    
+                    <label class="checkbox-label" style="display: flex; align-items: center; gap: 5px; font-size: 14px; cursor: pointer; margin: 0 10px;">
+                        <input type="checkbox" id="impulse-input"> 🤬 낭비?
+                    </label>
 
-            <input type="text" id="item-input" placeholder="품목 (예: 치킨)">
-            <input type="number" id="price-input" placeholder="금액 (원)">
-            <label
-                style="display: flex; align-items: center; gap: 5px; font-size: 14px; cursor: pointer; margin: 0 10px;">
-                <input type="checkbox" id="impulse-input"> 🤬 낭비/충동?
-            </label>
-            <button id="add-button">추가하기</button>
-        </div>
+                    <button id="add-button">추가</button>
+                </div>
+            </section>
 
-        <h3>📊 소비 패턴 분석</h3>
-        <div style="width: 100%; max-width: 400px; margin: 0 auto;">
-            <canvas id="myChart"></canvas>
-        </div>
+            <section class="card chart-card">
+                <h3>📊 소비 분석 (월간 vs 오늘)</h3>
+                <div class="charts-wrapper" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-around;">
+                    
+                    <div style="flex: 1; min-width: 250px; text-align: center;">
+                        <h4>📅 이번 달 비율</h4>
+                        <div style="height: 200px;">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
 
-        <hr>
+                    <div style="flex: 1; min-width: 250px; text-align: center; border-left: 1px dashed #eee;">
+                        <h4>🌞 오늘의 지출</h4>
+                        <div style="height: 200px;">
+                            <canvas id="todayChart"></canvas>
+                        </div>
+                    </div>
 
-        <hr>
-        <h3>📋 소비 내역 리스트</h3>
-        <ul id="expense-list" style="list-style: none; padding: 0;">
-        </ul>
+                </div>
+            </section>
 
-        <hr>
+            <div class="dashboard-row">
+                <section class="card list-card" style="flex: 1;">
+                    <h3>📋 최근 지출 내역</h3>
+                    <ul id="expense-list" class="custom-list">
+                        </ul>
+                </section>
 
-        <button id="analyze-button">💰 이 내역들 AI로 분석하기</button>
+                <section class="card ai-result-card" style="flex: 1;">
+                    <h3>🤖 AI의 조언</h3>
+                    <div id="result">
+                        <p>데이터를 입력하고 왼쪽의 'AI 분석 요청' 버튼을 눌러보세요.</p>
+                    </div>
+                </section>
+            </div>
 
-        <h2>🤖 AI의 조언</h2>
-        <div id="result">
-            <p>내역을 입력하고 분석 버튼을 눌러주세요.</p>
-        </div>
+        </main>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
