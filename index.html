@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>충동구매 방지 가계부</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
     <div class="container">
         <h1>💸 충동구매 방지 가계부</h1>
-        
+
         <div class="input-group">
             <input type="date" id="date-input">
-            
+
             <select id="category-input">
                 <option value="식비">🍚 식비</option>
                 <option value="쇼핑">🛍️ 쇼핑</option>
@@ -24,18 +27,26 @@
 
             <input type="text" id="item-input" placeholder="품목 (예: 치킨)">
             <input type="number" id="price-input" placeholder="금액 (원)">
-            
+
             <button id="add-button">추가하기</button>
         </div>
 
-        <hr> <h3>📋 소비 내역 리스트</h3>
+        <h3>📊 소비 패턴 분석</h3>
+        <div style="width: 100%; max-width: 400px; margin: 0 auto;">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <hr>
+
+        <hr>
+        <h3>📋 소비 내역 리스트</h3>
         <ul id="expense-list" style="list-style: none; padding: 0;">
-            </ul>
+        </ul>
 
         <hr>
 
         <button id="analyze-button">💰 이 내역들 AI로 분석하기</button>
-        
+
         <h2>🤖 AI의 조언</h2>
         <div id="result">
             <p>내역을 입력하고 분석 버튼을 눌러주세요.</p>
@@ -44,4 +55,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

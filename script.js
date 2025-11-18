@@ -116,3 +116,59 @@ analyzeButton.addEventListener("click", async function() {
         analyzeButton.disabled = false;
     }
 });
+
+//차트 담당 코드
+let myChart = null; // 차트 객체를 담을 변수
+
+function updateChart() {
+    // 1. 카테고리별 합계 계산하기
+    const categoryTotals = {
+        "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0
+    };
+
+    expenses.forEach(expense => {
+        if (categoryTotals[expense.category] !== undefined) {
+            categoryTotals[expense.category] += expense.price;
+        } else {
+            categoryTotals["기타"] += expense.price;
+        }
+    });
+
+    // 2. 차트에 들어갈 데이터 준비
+    const labels = Object.keys(categoryTotals); // ["식비", "쇼핑", ...]
+    const data = Object.values(categoryTotals); // [15000, 30000, ...]
+
+    // 3. 기존 차트가 있으면 삭제 (안 그러면 겹쳐서 그려짐)
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    // 4. 차트 그리기
+    const ctx = document.getElementById('myChart').getContext('2d');
+    myChart = new Chart(ctx, {
+        type: 'doughnut', // 'pie'나 'bar'로 바꿔보세요!
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '지출 금액',
+                data: data,
+                backgroundColor: [
+                    '#FF6384', // 식비 (분홍)
+                    '#36A2EB', // 쇼핑 (파랑)
+                    '#FFCE56', // 교통 (노랑)
+                    '#4BC0C0', // 취미 (민트)
+                    '#9966FF'  // 기타 (보라)
+                ],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom', // 범례 위치
+                }
+            }
+        }
+    });
+}
