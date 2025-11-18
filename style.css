@@ -29,7 +29,6 @@ h2 {
     padding-bottom: 5px;
 }
 
-/* 1. 일기 입력창 스타일 */
 #diary-input {
     width: 100%;
     min-height: 150px; /* 최소 높이 */

@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>충동구매 방지 가계부</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <div class="container">
-        <h1>💸 충동구매 방지 가계부 일기</h1>
-        <p>오늘의 소비 내역이나 일기를 적어주세요.</p>
+        <h1>💸 충동구매 방지 가계부</h1>
+        
+        <div class="input-group">
+            <input type="date" id="date-input">
+            
+            <select id="category-input">
+                <option value="식비">🍚 식비</option>
+                <option value="쇼핑">🛍️ 쇼핑</option>
+                <option value="교통">🚌 교통</option>
+                <option value="취미">🎮 취미</option>
+                <option value="기타">🎸 기타</option>
+            </select>
 
-        <textarea id="diary-input"
-            placeholder="예: 오늘 점심엔 15,000원짜리 파스타를 먹었고, 저녁엔 배가 고프지 않았는데 20,000원짜리 치킨을 시켜 먹었다..."></textarea>
+            <input type="text" id="item-input" placeholder="품목 (예: 치킨)">
+            <input type="number" id="price-input" placeholder="금액 (원)">
+            
+            <button id="add-button">추가하기</button>
+        </div>
 
-        <button id="analyze-button">AI 분석 요청하기</button>
+        <hr> <h3>📋 소비 내역 리스트</h3>
+        <ul id="expense-list" style="list-style: none; padding: 0;">
+            </ul>
 
+        <hr>
+
+        <button id="analyze-button">💰 이 내역들 AI로 분석하기</button>
+        
         <h2>🤖 AI의 조언</h2>
-
         <div id="result">
-            <p>아직 분석 결과가 없습니다. 일기를 작성하고 버튼을 눌러주세요.</p>
+            <p>내역을 입력하고 분석 버튼을 눌러주세요.</p>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
-
 </html>
