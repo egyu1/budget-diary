@@ -68,6 +68,7 @@ function renderExpenses() {
         `;
         expenseList.appendChild(li);
     });
+    updateChart();
 }
 
 // 5. [기능] 삭제하기 (HTML에서 호출할 수 있게 window에 등록)
