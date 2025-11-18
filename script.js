@@ -3,7 +3,7 @@ const dateInput = document.getElementById('date-input');
 const categoryInput = document.getElementById('category-input');
 const itemInput = document.getElementById('item-input');
 const priceInput = document.getElementById('price-input');
-const impulseInput = document.getElementById('impulse-input'); // (추가됨) 체크박스
+const impulseInput = document.getElementById('impulse-input'); 
 const addButton = document.getElementById('add-button');
 const expenseList = document.getElementById('expense-list');
 const analyzeButton = document.getElementById('analyze-button');
@@ -11,18 +11,20 @@ const resultDiv = document.getElementById('result');
 
 // 2. 전역 변수 선언
 let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-let myChart = null;
+// 차트 변수 2개 준비
+let monthlyChart = null; 
+let todayChart = null;
 
 // 3. 초기화
 renderExpenses();
 
-// 4. [기능] 추가하기 (수정됨)
+// 4. [기능] 추가하기
 addButton.addEventListener('click', function() {
     const date = dateInput.value;
     const category = categoryInput.value;
     const item = itemInput.value;
     const price = priceInput.value;
-    const isImpulse = impulseInput.checked; // (추가됨) 체크 여부 확인 (true/false)
+    const isImpulse = impulseInput.checked; 
 
     if(date === '' || item === '' || price === '') {
         alert('모든 내용을 입력해주세요!');
@@ -35,34 +37,35 @@ addButton.addEventListener('click', function() {
         category: category,
         item: item,
         price: Number(price),
-        isImpulse: isImpulse // (추가됨) 데이터에 저장
+        isImpulse: isImpulse 
     };
 
     expenses.push(expense);
     saveExpenses();
     renderExpenses();
 
-    // 입력창 초기화
     itemInput.value = '';
     priceInput.value = '';
-    impulseInput.checked = false; // (추가됨) 체크박스도 해제
+    impulseInput.checked = false; 
 });
 
+// 5. 저장 함수
 function saveExpenses() {
     localStorage.setItem('expenses', JSON.stringify(expenses));
 }
 
-// 6. [기능] 화면 그리기 (수정됨)
+// 6. 화면 그리기
 function renderExpenses() {
     expenseList.innerHTML = '';
 
-    expenses.forEach(function(expense) {
+    // 리스트 최신순 정렬 (날짜 내림차순)
+    const sortedExpenses = expenses.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    sortedExpenses.forEach(function(expense) {
         const li = document.createElement('li');
         
-        // (추가됨) 충동구매면 빨간색 뱃지를 달아줌
         const impulseBadge = expense.isImpulse ? '<span style="color:red; font-weight:bold; margin-right:5px;">(🤬낭비)</span>' : '';
         
-        // (추가됨) 충동구매면 배경색을 살짝 붉게 처리
         if (expense.isImpulse) {
             li.style.backgroundColor = "#FFF0F0";
         }
@@ -80,39 +83,54 @@ function renderExpenses() {
         `;
         expenseList.appendChild(li);
     });
+    
+    // 차트 2개 모두 업데이트
     updateChart();
 }
 
+// 7. 삭제하기
 window.deleteExpense = function(id) {
     expenses = expenses.filter(expense => expense.id !== id);
     saveExpenses();
     renderExpenses();
 };
 
-// 8. 차트 그리기 (그대로)
+// 8. 📊 차트 그리기 (대수술!)
 function updateChart() {
-    const categoryTotals = { "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0 };
+    // --- [준비] 데이터 분류 ---
+    const todayDate = new Date().toISOString().split('T')[0]; // 오늘 날짜 (YYYY-MM-DD)
+
+    const monthTotals = { "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0 };
+    const todayTotals = { "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0 };
+
     expenses.forEach(expense => {
-        if (categoryTotals[expense.category] !== undefined) {
-            categoryTotals[expense.category] += expense.price;
+        // 1. 전체(월간) 합계
+        if (monthTotals[expense.category] !== undefined) {
+            monthTotals[expense.category] += expense.price;
         } else {
-            categoryTotals["기타"] += expense.price;
+            monthTotals["기타"] += expense.price;
+        }
+
+        // 2. 오늘 합계 (날짜가 오늘과 같으면)
+        if (expense.date === todayDate) {
+             if (todayTotals[expense.category] !== undefined) {
+                todayTotals[expense.category] += expense.price;
+            } else {
+                todayTotals["기타"] += expense.price;
+            }
         }
     });
 
-    const labels = Object.keys(categoryTotals);
-    const data = Object.values(categoryTotals);
+    // --- [차트 1] 이번 달 (도넛 차트) ---
+    const monthCtx = document.getElementById('monthlyChart').getContext('2d');
+    if (monthlyChart) monthlyChart.destroy();
 
-    if (myChart) myChart.destroy();
-
-    const ctx = document.getElementById('myChart').getContext('2d');
-    myChart = new Chart(ctx, {
+    monthlyChart = new Chart(monthCtx, {
         type: 'doughnut',
         data: {
-            labels: labels,
+            labels: Object.keys(monthTotals),
             datasets: [{
-                label: '지출 금액',
-                data: data,
+                data: Object.values(monthTotals),
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
                 hoverOffset: 4
             }]
@@ -120,22 +138,45 @@ function updateChart() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom' } }
+            plugins: { legend: { display: false } } // 공간 좁아서 범례 숨김
+        }
+    });
+
+    // --- [차트 2] 오늘 (막대 차트) ---
+    const todayCtx = document.getElementById('todayChart').getContext('2d');
+    if (todayChart) todayChart.destroy();
+
+    todayChart = new Chart(todayCtx, {
+        type: 'bar', // 막대 그래프!
+        data: {
+            labels: Object.keys(todayTotals),
+            datasets: [{
+                label: '오늘 지출',
+                data: Object.values(todayTotals),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true } // 0부터 시작
+            }
         }
     });
 }
 
-// 9. [기능] AI 분석 요청 (수정됨)
+// 9. AI 분석 요청
 analyzeButton.addEventListener("click", async function() {
     if (expenses.length === 0) {
         alert("분석할 내역이 없습니다!");
         return;
     }
-
     resultDiv.innerHTML = "AI가 소비 내역을 분석 중입니다... 🤖";
     analyzeButton.disabled = true;
 
-    // (수정됨) AI에게 보낼 때 충동구매 여부를 명확히 표시해서 보냄!
     let diaryText = "최근 소비 내역입니다:\n";
     expenses.forEach(e => {
         const marker = e.isImpulse ? "[!!!사용자가 인정한 낭비!!!]" : "[일반 소비]";
@@ -151,11 +192,9 @@ analyzeButton.addEventListener("click", async function() {
                 body: JSON.stringify({ diary: diaryText }), 
             }
         );
-
         const data = await response.json();
         if (response.status !== 200) throw new Error(data.error);
         resultDiv.textContent = data.result;
-
     } catch (error) {
         console.error("오류:", error);
         resultDiv.textContent = `오류: ${error.message}`;
