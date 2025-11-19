@@ -130,7 +130,8 @@ body {
     align-items: center;
 }
 
-.input-group input,
+/* ⚠️ 중요 수정: 체크박스는 flex: 1 적용에서 제외함! */
+.input-group input:not([type="checkbox"]), 
 .input-group select {
     padding: 12px;
     border: 1px solid var(--border-color);
@@ -139,22 +140,27 @@ body {
     min-width: 120px;
 }
 
-/* (수정됨) 체크박스 라벨 스타일: 왼쪽 정렬 보장 */
+/* 체크박스 라벨 스타일 */
 .checkbox-label {
     display: flex;
-    /* 기존에 display: center; 라고 오타가 있었습니다 ㅠㅠ */
     align-items: center;
-    /* 세로 중앙 정렬 */
-    gap: 5px;
-    /* 체크박스와 글자 사이 간격 */
+    justify-content: flex-start; /* 무조건 왼쪽 정렬 */
+    gap: 8px;
     font-size: 14px;
     cursor: pointer;
-    margin: 0 10px 0 0;
+    margin-right: 10px;
     white-space: nowrap;
     color: #555;
     font-weight: bold;
-    width: auto;
-    /* PC에서는 자기 크기만큼만 */
+    background-color: #fff; /* 배경색 추가로 겹침 방지 */
+}
+
+/* 체크박스 자체 크기 조절 */
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
 }
 
 #add-button {
@@ -192,7 +198,7 @@ body {
     flex-wrap: wrap;
 }
 
-.dashboard-row>section {
+.dashboard-row > section {
     flex: 1;
     min-width: 300px;
 }
@@ -267,14 +273,14 @@ body {
 
     .input-group {
         flex-direction: column;
-        align-items: stretch;
-        /* 인풋창들은 가로 꽉 차게 */
+        align-items: stretch; /* 인풋창들은 가로 꽉 차게 */
     }
 
-    /* 모바일에서 체크박스 왼쪽 정렬 */
+    /* 모바일에서 체크박스 스타일 */
     .checkbox-label {
         width: 100%;
-        justify-content: flex-start;
+        justify-content: flex-start; /* 왼쪽 정렬 강제 */
         margin: 10px 0;
+        padding-left: 5px; /* 살짝 여백 */
     }
 }
