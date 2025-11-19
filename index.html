@@ -24,7 +24,7 @@
             </nav>
             <div class="sidebar-footer">
                 <button id="analyze-button" class="ai-btn">
-                    <i class="fas fa-robot"></i> AI 분석 요청
+                    <i class="fas fa-robot"></i>내 소비 분석하기
                 </button>
             </div>
         </aside>
@@ -36,20 +36,20 @@
                 <div class="input-group">
                     <input type="date" id="date-input">
                     <select id="category-input">
-                        <option value="식비">🍚 식비</option>
-                        <option value="쇼핑">🛍️ 쇼핑</option>
-                        <option value="교통">🚌 교통</option>
-                        <option value="취미">🎮 취미</option>
-                        <option value="기타">🎸 기타</option>
+                        <option value="식비">식비</option>
+                        <option value="쇼핑">쇼핑</option>
+                        <option value="교통">교통</option>
+                        <option value="취미">취미</option>
+                        <option value="기타">기타</option>
                     </select>
                     <input type="text" id="item-input" placeholder="품목 (예: 커피)">
                     <input type="number" id="price-input" placeholder="금액">
                     
                     <label class="checkbox-label">
-                        <input type="checkbox" id="impulse-input"> 🤬 낭비?
+                        <input type="checkbox" id="impulse-input">낭비?
                     </label>
 
-                    <button id="add-button">추가</button>
+                    <button id="add-button">추가하기</button>
                 </div>
             </section>
 
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="chart-box" style="border-left: 1px dashed #eee;">
-                        <h4>🌞 오늘의 지출</h4>
+                        <h4>오늘의 지출</h4>
                         <div class="chart-container">
                             <canvas id="todayChart"></canvas>
                         </div>
@@ -73,12 +73,12 @@
 
             <div class="dashboard-row">
                 <section class="card list-card">
-                    <h3>📋 최근 지출 내역</h3>
+                    <h3>최근 지출 내역</h3>
                     <ul id="expense-list" class="custom-list"></ul>
                 </section>
 
                 <section class="card ai-result-card">
-                    <h3>🤖 AI의 조언</h3>
+                    <h3>의 조언</h3>
                     <div id="result">
                         <p>데이터를 입력하고 왼쪽의 'AI 분석 요청' 버튼을 눌러보세요.</p>
                     </div>
