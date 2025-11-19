@@ -53,7 +53,7 @@ function saveExpenses() {
     localStorage.setItem('expenses', JSON.stringify(expenses));
 }
 
-// 6. 화면 그리기 (수정됨: CSS 클래스 활용)
+// 6. 화면 그리기
 function renderExpenses() {
     expenseList.innerHTML = '';
     const sortedExpenses = expenses.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -61,7 +61,6 @@ function renderExpenses() {
     sortedExpenses.forEach(function(expense) {
         const li = document.createElement('li');
         
-        // 낭비 항목이면 'impulse' 클래스 추가 (배경색 처리됨)
         if (expense.isImpulse) {
             li.classList.add('impulse');
         }
@@ -93,29 +92,50 @@ window.deleteExpense = function(id) {
     renderExpenses();
 };
 
-// 8. 차트 그리기
+// 8. 차트 그리기 (수정됨: 퍼센트 표시 로직 추가)
 function updateChart() {
     const todayDate = new Date().toISOString().split('T')[0];
     const monthTotals = { "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0 };
     const todayTotals = { "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0 };
 
     expenses.forEach(expense => {
-        // 월간 집계
         if (monthTotals[expense.category] !== undefined) monthTotals[expense.category] += expense.price;
         else monthTotals["기타"] += expense.price;
 
-        // 오늘 집계
         if (expense.date === todayDate) {
              if (todayTotals[expense.category] !== undefined) todayTotals[expense.category] += expense.price;
             else todayTotals["기타"] += expense.price;
         }
     });
 
-    // 차트 옵션 공통
+    // (수정됨) 차트 공통 옵션: 범례 표시 & 툴팁에 퍼센트 계산
     const commonOptions = {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
+        plugins: {
+            // 1. 범례(항목 이름) 표시
+            legend: { 
+                display: true, 
+                position: 'top',
+                labels: { font: { size: 12 }, boxWidth: 10 }
+            },
+            // 2. 툴팁에 금액과 퍼센트(%) 표시
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.label || '';
+                        let value = context.raw || 0;
+                        
+                        // 전체 합계 계산
+                        let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        // 퍼센트 계산
+                        let percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+
+                        return `${label}: ${value.toLocaleString()}원 (${percentage}%)`;
+                    }
+                }
+            }
+        }
     };
 
     // 월간 도넛 차트
@@ -131,7 +151,7 @@ function updateChart() {
                 hoverOffset: 4
             }]
         },
-        options: commonOptions
+        options: commonOptions // 위에서 만든 옵션 적용
     });
 
     // 오늘 막대 차트
@@ -149,7 +169,7 @@ function updateChart() {
             }]
         },
         options: {
-            ...commonOptions,
+            ...commonOptions, // 공통 옵션 상속
             scales: { y: { beginAtZero: true } }
         }
     });

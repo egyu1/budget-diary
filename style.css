@@ -2,19 +2,17 @@
    1. 기본 설정 및 변수 (색상 관리)
    ========================================= */
 :root {
-    --bg-color: #FDFBF7;       /* 전체 배경: 베이지 */
-    --sidebar-bg: #FFFFFF;     /* 사이드바: 흰색 */
-    --main-color: #FFADC9;     /* 포인트: 핑크 */
-    --accent-color: #6C5CE7;   /* 강조: 보라 (AI 버튼) */
-    --text-color: #333333;     /* 글자색 */
-    --gray-text: #777777;      /* 회색 글자 */
-    --border-color: #EEEEEE;   /* 테두리 색 */
-    --card-shadow: 0 4px 20px rgba(0,0,0,0.05); /* 그림자 */
+    --bg-color: #FDFBF7;       
+    --sidebar-bg: #FFFFFF;     
+    --main-color: #FFADC9;     
+    --accent-color: #6C5CE7;   
+    --text-color: #333333;     
+    --gray-text: #777777;      
+    --border-color: #EEEEEE;   
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.05); 
 }
 
-* {
-    box-sizing: border-box; /* 크기 계산 단순화 */
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -25,14 +23,13 @@ body {
 }
 
 /* =========================================
-   2. 레이아웃 구조 (사이드바 + 메인)
+   2. 레이아웃 구조
    ========================================= */
 .dashboard-container {
     display: flex;
-    min-height: 100vh; /* 화면 전체 높이 사용 */
+    min-height: 100vh;
 }
 
-/* 사이드바 (PC 화면) */
 .sidebar {
     width: 260px;
     background-color: var(--sidebar-bg);
@@ -40,30 +37,23 @@ body {
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    position: fixed; /* 스크롤해도 고정 */
+    position: fixed;
     height: 100%;
     z-index: 10;
 }
 
 .main-content {
     flex: 1;
-    margin-left: 260px; /* 사이드바 너비만큼 밀기 */
+    margin-left: 260px;
     padding: 40px;
-    max-width: 1200px; /* 너무 넓어지지 않게 제한 */
+    max-width: 1200px;
 }
 
 /* =========================================
    3. 사이드바 디자인
    ========================================= */
-.logo h2 {
-    color: var(--main-color);
-    margin: 0 0 5px 0;
-}
-.logo p {
-    font-size: 14px;
-    color: var(--gray-text);
-    margin-bottom: 40px;
-}
+.logo h2 { color: var(--main-color); margin: 0 0 5px 0; }
+.logo p { font-size: 14px; color: var(--gray-text); margin-bottom: 40px; }
 
 .menu a {
     display: block;
@@ -75,15 +65,12 @@ body {
     margin-bottom: 8px;
     transition: all 0.3s;
 }
-
 .menu a:hover, .menu a.active {
     background-color: var(--main-color);
     color: white;
 }
 
-.sidebar-footer {
-    margin-top: auto; /* 바닥으로 밀기 */
-}
+.sidebar-footer { margin-top: auto; }
 
 .ai-btn {
     width: 100%;
@@ -98,9 +85,7 @@ body {
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
     transition: transform 0.2s;
 }
-.ai-btn:hover {
-    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
-}
+.ai-btn:hover { transform: translateY(-2px); }
 
 /* =========================================
    4. 카드 및 콘텐츠 디자인
@@ -112,7 +97,6 @@ body {
     margin-bottom: 25px;
     box-shadow: var(--card-shadow);
 }
-
 .card h3 {
     margin-top: 0;
     border-left: 4px solid var(--main-color);
@@ -124,26 +108,28 @@ body {
 .input-group {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap; /* 화면 좁으면 줄바꿈 */
+    flex-wrap: wrap;
     align-items: center;
 }
-
 .input-group input, .input-group select {
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    flex: 1; /* 공간 균등 분배 */
-    min-width: 120px; /* 너무 작아지지 않게 */
+    flex: 1;
+    min-width: 120px;
 }
 
+/* (수정됨) 체크박스 라벨 스타일: 왼쪽 정렬 보장 */
 .checkbox-label {
-    display: center;
-    align-items: left;
+    display: flex;
+    align-items: center;
     gap: 5px;
     font-size: 14px;
     cursor: pointer;
-    margin: 0 10px;
-    white-space: nowrap; /* 줄바꿈 방지 */
+    margin: 0 10px 0 0; /* 오른쪽 여백만 줌 */
+    white-space: nowrap;
+    color: #555;
+    font-weight: bold;
 }
 
 #add-button {
@@ -164,11 +150,11 @@ body {
 }
 .chart-box {
     flex: 1;
-    min-width: 280px; /* 차트 최소 너비 */
+    min-width: 280px;
     text-align: center;
 }
 .chart-container {
-    height: 250px; /* 차트 높이 고정 */
+    height: 250px;
     position: relative;
 }
 
@@ -183,12 +169,8 @@ body {
     min-width: 300px;
 }
 
-/* 리스트 아이템 스타일 */
-.custom-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+/* 리스트 스타일 */
+.custom-list { list-style: none; padding: 0; margin: 0; }
 .custom-list li {
     display: flex;
     justify-content: space-between;
@@ -197,7 +179,7 @@ body {
     border-bottom: 1px dashed var(--border-color);
 }
 .custom-list li.impulse {
-    background-color: #FFF0F0; /* 낭비 항목 배경색 */
+    background-color: #FFF0F0;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 8px;
@@ -211,50 +193,42 @@ body {
     font-size: 16px;
 }
 
-/* AI 결과 텍스트 처리 (가로 깨짐 방지 핵심!) */
+/* AI 결과 */
 #result {
     background-color: #F8F9FA;
     padding: 20px;
     border-radius: 12px;
-    white-space: pre-wrap; /* 줄바꿈 유지 */
-    word-break: break-word; /* 긴 단어 강제 줄바꿈 */
+    white-space: pre-wrap;
+    word-break: break-word;
     font-size: 15px;
     color: #444;
 }
 
 /* =========================================
-   5. 모바일 반응형 (화면 폭 768px 이하)
+   5. 모바일 반응형
    ========================================= */
 @media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column; /* 세로 배치로 변경 */
-    }
-    
+    .dashboard-container { flex-direction: column; }
     .sidebar {
         width: 100%;
-        position: relative; /* 고정 해제 */
+        position: relative;
         height: auto;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
         padding: 20px;
     }
-
-    .main-content {
-        margin-left: 0; /* 마진 제거 */
-        padding: 20px;
-    }
-
-    .dashboard-row {
-        flex-direction: column;
-    }
+    .main-content { margin-left: 0; padding: 20px; }
+    .dashboard-row { flex-direction: column; }
     
     .input-group {
         flex-direction: column;
-        align-items: stretch; /* 가로 꽉 차게 */
+        align-items: stretch; /* 인풋창들은 가로 꽉 차게 */
     }
     
+    /* 모바일에서 체크박스 왼쪽 정렬 */
     .checkbox-label {
-        justify-content: center;
+        width: 100%; /* 전체 너비 사용 */
+        justify-content: flex-start; /* 왼쪽 정렬 */
         margin: 10px 0;
     }
 }
