@@ -1,69 +1,260 @@
+/* =========================================
+   1. 기본 설정 및 변수 (색상 관리)
+   ========================================= */
+:root {
+    --bg-color: #FDFBF7;       /* 전체 배경: 베이지 */
+    --sidebar-bg: #FFFFFF;     /* 사이드바: 흰색 */
+    --main-color: #FFADC9;     /* 포인트: 핑크 */
+    --accent-color: #6C5CE7;   /* 강조: 보라 (AI 버튼) */
+    --text-color: #333333;     /* 글자색 */
+    --gray-text: #777777;      /* 회색 글자 */
+    --border-color: #EEEEEE;   /* 테두리 색 */
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.05); /* 그림자 */
+}
+
+* {
+    box-sizing: border-box; /* 크기 계산 단순화 */
+}
+
 body {
-    font-family: 'Arial', sans-serif; 
-    background-color: #f4f7f6; 
-    display: flex;
-    justify-content: center; /* 내용을 가로 중앙에 배치 */
-    align-items: center; /* 내용을 세로 중앙에 배치 */
-    min-height: 100vh; /* 화면 높이만큼 최소 높이 설정 */
     margin: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
-.container {
-    background-color: white;
+/* =========================================
+   2. 레이아웃 구조 (사이드바 + 메인)
+   ========================================= */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh; /* 화면 전체 높이 사용 */
+}
+
+/* 사이드바 (PC 화면) */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    width: 90%;
-    max-width: 600px;
-    box-sizing: border-box; /* 패딩이 너비를 초과하지 않게 설정 */
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* 스크롤해도 고정 */
+    height: 100%;
+    z-index: 10;
 }
 
-h1 {
-    text-align: center;
-    color: #333;
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* 사이드바 너비만큼 밀기 */
+    padding: 40px;
+    max-width: 1200px; /* 너무 넓어지지 않게 제한 */
 }
 
-h2 {
-    color: #555;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 5px;
+/* =========================================
+   3. 사이드바 디자인
+   ========================================= */
+.logo h2 {
+    color: var(--main-color);
+    margin: 0 0 5px 0;
+}
+.logo p {
+    font-size: 14px;
+    color: var(--gray-text);
+    margin-bottom: 40px;
 }
 
-#diary-input {
-    width: 100%;
-    min-height: 150px; /* 최소 높이 */
+.menu a {
+    display: block;
     padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box; /* 중요! 패딩 포함해서 너비 100% */
-    font-size: 16px;
-    margin-bottom: 15px; /* 버튼과의 간격 */
+    text-decoration: none;
+    color: var(--gray-text);
+    font-weight: bold;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all 0.3s;
 }
 
-#analyze-button {
+.menu a:hover, .menu a.active {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.sidebar-footer {
+    margin-top: auto; /* 바닥으로 밀기 */
+}
+
+.ai-btn {
     width: 100%;
     padding: 15px;
-    background-color: #007bff; 
+    background-color: var(--accent-color);
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 18px;
+    border-radius: 12px;
+    font-size: 16px;
     font-weight: bold;
-    cursor: pointer; 
-    transition: background-color 0.2s; /* 부드러운 색상 변경 효과 */
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+    transition: transform 0.2s;
+}
+.ai-btn:hover {
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
 }
 
-#analyze-button:hover {
-    background-color: #0056b3;
+/* =========================================
+   4. 카드 및 콘텐츠 디자인
+   ========================================= */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: var(--card-shadow);
 }
 
+.card h3 {
+    margin-top: 0;
+    border-left: 4px solid var(--main-color);
+    padding-left: 12px;
+    font-size: 18px;
+}
 
+/* 입력 그룹 */
+.input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* 화면 좁으면 줄바꿈 */
+    align-items: center;
+}
+
+.input-group input, .input-group select {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    flex: 1; /* 공간 균등 분배 */
+    min-width: 120px; /* 너무 작아지지 않게 */
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 10px;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+#add-button {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 차트 영역 */
+.charts-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.chart-box {
+    flex: 1;
+    min-width: 280px; /* 차트 최소 너비 */
+    text-align: center;
+}
+.chart-container {
+    height: 250px; /* 차트 높이 고정 */
+    position: relative;
+}
+
+/* 리스트 및 결과 영역 */
+.dashboard-row {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+.dashboard-row > section {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* 리스트 아이템 스타일 */
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.custom-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+.custom-list li.impulse {
+    background-color: #FFF0F0; /* 낭비 항목 배경색 */
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+}
+.delete-btn {
+    margin-left: 10px;
+    color: #FF6B6B;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* AI 결과 텍스트 처리 (가로 깨짐 방지 핵심!) */
 #result {
-    background-color: #f9f9f9;
+    background-color: #F8F9FA;
     padding: 20px;
-    border-radius: 5px;
-    margin-top: 20px;
-    min-height: 50px;
+    border-radius: 12px;
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+    word-break: break-word; /* 긴 단어 강제 줄바꿈 */
+    font-size: 15px;
     color: #444;
-    line-height: 1.6;
+}
+
+/* =========================================
+   5. 모바일 반응형 (화면 폭 768px 이하)
+   ========================================= */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column; /* 세로 배치로 변경 */
+    }
+    
+    .sidebar {
+        width: 100%;
+        position: relative; /* 고정 해제 */
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 20px;
+    }
+
+    .main-content {
+        margin-left: 0; /* 마진 제거 */
+        padding: 20px;
+    }
+
+    .dashboard-row {
+        flex-direction: column;
+    }
+    
+    .input-group {
+        flex-direction: column;
+        align-items: stretch; /* 가로 꽉 차게 */
+    }
+    
+    .checkbox-label {
+        justify-content: center;
+        margin: 10px 0;
+    }
 }
