@@ -2,17 +2,19 @@
    1. 기본 설정 및 변수 (색상 관리)
    ========================================= */
 :root {
-    --bg-color: #FDFBF7;       
-    --sidebar-bg: #FFFFFF;     
-    --main-color: #FFADC9;     
-    --accent-color: #6C5CE7;   
-    --text-color: #333333;     
-    --gray-text: #777777;      
-    --border-color: #EEEEEE;   
-    --card-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+    --bg-color: #FDFBF7;
+    --sidebar-bg: #FFFFFF;
+    --main-color: #FFADC9;
+    --accent-color: #6C5CE7;
+    --text-color: #333333;
+    --gray-text: #777777;
+    --border-color: #EEEEEE;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
@@ -52,8 +54,16 @@ body {
 /* =========================================
    3. 사이드바 디자인
    ========================================= */
-.logo h2 { color: var(--main-color); margin: 0 0 5px 0; }
-.logo p { font-size: 14px; color: var(--gray-text); margin-bottom: 40px; }
+.logo h2 {
+    color: var(--main-color);
+    margin: 0 0 5px 0;
+}
+
+.logo p {
+    font-size: 14px;
+    color: var(--gray-text);
+    margin-bottom: 40px;
+}
 
 .menu a {
     display: block;
@@ -65,12 +75,16 @@ body {
     margin-bottom: 8px;
     transition: all 0.3s;
 }
-.menu a:hover, .menu a.active {
+
+.menu a:hover,
+.menu a.active {
     background-color: var(--main-color);
     color: white;
 }
 
-.sidebar-footer { margin-top: auto; }
+.sidebar-footer {
+    margin-top: auto;
+}
 
 .ai-btn {
     width: 100%;
@@ -85,7 +99,10 @@ body {
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
     transition: transform 0.2s;
 }
-.ai-btn:hover { transform: translateY(-2px); }
+
+.ai-btn:hover {
+    transform: translateY(-2px);
+}
 
 /* =========================================
    4. 카드 및 콘텐츠 디자인
@@ -97,6 +114,7 @@ body {
     margin-bottom: 25px;
     box-shadow: var(--card-shadow);
 }
+
 .card h3 {
     margin-top: 0;
     border-left: 4px solid var(--main-color);
@@ -111,7 +129,9 @@ body {
     flex-wrap: wrap;
     align-items: center;
 }
-.input-group input, .input-group select {
+
+.input-group input,
+.input-group select {
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 10px;
@@ -122,14 +142,19 @@ body {
 /* (수정됨) 체크박스 라벨 스타일: 왼쪽 정렬 보장 */
 .checkbox-label {
     display: flex;
+    /* 기존에 display: center; 라고 오타가 있었습니다 ㅠㅠ */
     align-items: center;
+    /* 세로 중앙 정렬 */
     gap: 5px;
+    /* 체크박스와 글자 사이 간격 */
     font-size: 14px;
     cursor: pointer;
-    margin: 0 10px 0 0; /* 오른쪽 여백만 줌 */
+    margin: 0 10px 0 0;
     white-space: nowrap;
     color: #555;
     font-weight: bold;
+    width: auto;
+    /* PC에서는 자기 크기만큼만 */
 }
 
 #add-button {
@@ -148,11 +173,13 @@ body {
     gap: 20px;
     flex-wrap: wrap;
 }
+
 .chart-box {
     flex: 1;
     min-width: 280px;
     text-align: center;
 }
+
 .chart-container {
     height: 250px;
     position: relative;
@@ -164,13 +191,19 @@ body {
     gap: 25px;
     flex-wrap: wrap;
 }
-.dashboard-row > section {
+
+.dashboard-row>section {
     flex: 1;
     min-width: 300px;
 }
 
 /* 리스트 스타일 */
-.custom-list { list-style: none; padding: 0; margin: 0; }
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .custom-list li {
     display: flex;
     justify-content: space-between;
@@ -178,12 +211,14 @@ body {
     padding: 15px 0;
     border-bottom: 1px dashed var(--border-color);
 }
+
 .custom-list li.impulse {
     background-color: #FFF0F0;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 8px;
 }
+
 .delete-btn {
     margin-left: 10px;
     color: #FF6B6B;
@@ -208,7 +243,10 @@ body {
    5. 모바일 반응형
    ========================================= */
 @media (max-width: 768px) {
-    .dashboard-container { flex-direction: column; }
+    .dashboard-container {
+        flex-direction: column;
+    }
+
     .sidebar {
         width: 100%;
         position: relative;
@@ -217,18 +255,26 @@ body {
         border-bottom: 1px solid var(--border-color);
         padding: 20px;
     }
-    .main-content { margin-left: 0; padding: 20px; }
-    .dashboard-row { flex-direction: column; }
-    
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .dashboard-row {
+        flex-direction: column;
+    }
+
     .input-group {
         flex-direction: column;
-        align-items: stretch; /* 인풋창들은 가로 꽉 차게 */
+        align-items: stretch;
+        /* 인풋창들은 가로 꽉 차게 */
     }
-    
+
     /* 모바일에서 체크박스 왼쪽 정렬 */
     .checkbox-label {
-        width: 100%; /* 전체 너비 사용 */
-        justify-content: flex-start; /* 왼쪽 정렬 */
+        width: 100%;
+        justify-content: flex-start;
         margin: 10px 0;
     }
 }
