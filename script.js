@@ -65,7 +65,7 @@ function renderExpenses() {
             li.classList.add('impulse');
         }
 
-        const impulseBadge = expense.isImpulse ? '<span style="color:#FF6B6B; font-weight:bold; margin-right:5px;">(🤬낭비)</span>' : '';
+        const impulseBadge = expense.isImpulse ? '<span style="color:#FF6B6B; font-weight:bold; margin-right:5px;">(낭비)</span>' : '';
 
         li.innerHTML = `
             <span>
@@ -181,7 +181,7 @@ analyzeButton.addEventListener("click", async function() {
         alert("분석할 내역이 없습니다!");
         return;
     }
-    resultDiv.innerHTML = "AI가 데이터를 분석하고 있습니다... ⏳";
+    resultDiv.innerHTML = "상담사가 데이터를 분석하고 있어요... ⏳";
     analyzeButton.disabled = true;
 
     let diaryText = "최근 소비 내역입니다:\n";
