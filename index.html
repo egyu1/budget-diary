@@ -48,9 +48,14 @@
                     </select>
                     <input type="text" id="item-input" placeholder="품목 (예: 커피)">
                     <input type="number" id="price-input" placeholder="금액">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="impulse-input"> 낭비?
-                    </label>
+                    
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="impulse-input"> 낭비?
+                        </label>
+                        <input type="text" id="emotion-input" placeholder="이유/감정 (예: 스트레스)" style="display: none; width: 180px;">
+                    </div>
+
                     <button id="add-button">추가하기</button>
                 </div>
             </section>
@@ -72,15 +77,14 @@
                     </div>
                     <div class="stat-box">
                         <span class="stat-title">목표 달성</span>
-                        <span id="goal-status" class="stat-value">-</span>
+                        <span id="goal-status" class="stat-value"></span>
                     </div>
-                    <div class="stat-box goal-box">
+                    <div class="stat-box goal-box" style="text-align: left; align-items: flex-start; display: flex; flex-direction: column; padding-left: 20px;">
                         <span class="stat-title">목표 낭비율(%)</span>
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                        <div style="display: flex; align-items: center; justify-content: flex-start; gap: 5px; margin-top: 5px;">
                             <input type="number" id="goal-input" value="20" min="0" max="100">
                             <span>% 미만</span>
                         </div>
-                        <div id="goal-status" style="font-size: 14px; margin-top: 5px; font-weight: bold;">-</div>
                     </div>
                 </div>
             </section>
@@ -108,14 +112,6 @@
                     <h3>최근 지출 내역</h3>
                     <ul id="expense-list" class="custom-list"></ul>
                 </section>
-
-                <!--모바일용 버튼-->
-                <!-- 
-                <div class="mobile-btn-container mobile-only">
-                    <button id="analyze-button-mobile" class="ai-btn">
-                        내 소비 분석하기
-                    </button>
-                </div> -->
 
                 <section class="card ai-result-card">
                     <h3>상담사의 조언</h3>
