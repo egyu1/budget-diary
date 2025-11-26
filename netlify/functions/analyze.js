@@ -4,7 +4,7 @@ exports.handler = async function (event) {
         const API_KEY = process.env.GEMINI_API_KEY;
 
         // 요청하신 모델 버전 유지 (단, 오류 시 이 부분이 원인일 가능성 높음)
-        const MODEL_NAME = "gemini-3-pro-preview"; 
+        const MODEL_NAME = "gemini-2.5-pro"; 
 
         const prompt = `
             당신은 현명하고 친절한 재정 조언가입니다. 
