@@ -1,5 +1,5 @@
 /* =========================================
-   1. 기본 설정 및 변수 (색상 관리)
+   1. 기본 설정
    ========================================= */
 :root {
     --bg-color: #FDFBF7;
@@ -12,9 +12,7 @@
     --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -25,12 +23,9 @@ body {
 }
 
 /* =========================================
-   2. 레이아웃 구조
+   2. 레이아웃
    ========================================= */
-.dashboard-container {
-    display: flex;
-    min-height: 100vh;
-}
+.dashboard-container { display: flex; min-height: 100vh; }
 
 .sidebar {
     width: 260px;
@@ -52,18 +47,10 @@ body {
 }
 
 /* =========================================
-   3. 사이드바 디자인
+   3. 사이드바
    ========================================= */
-.logo h2 {
-    color: var(--main-color);
-    margin: 0 0 5px 0;
-}
-
-.logo p {
-    font-size: 14px;
-    color: var(--gray-text);
-    margin-bottom: 40px;
-}
+.logo h2 { color: var(--main-color); margin: 0 0 5px 0; }
+.logo p { font-size: 14px; color: var(--gray-text); margin-bottom: 40px; }
 
 .menu a {
     display: block;
@@ -75,16 +62,12 @@ body {
     margin-bottom: 8px;
     transition: all 0.3s;
 }
-
-.menu a:hover,
-.menu a.active {
+.menu a:hover, .menu a.active {
     background-color: var(--main-color);
     color: white;
 }
 
-.sidebar-footer {
-    margin-top: auto;
-}
+.sidebar-footer { margin-top: auto; }
 
 .ai-btn {
     width: 100%;
@@ -99,13 +82,10 @@ body {
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
     transition: transform 0.2s;
 }
-
-.ai-btn:hover {
-    transform: translateY(-2px);
-}
+.ai-btn:hover { transform: translateY(-2px); }
 
 /* =========================================
-   4. 카드 및 콘텐츠 디자인
+   4. 카드 및 콘텐츠
    ========================================= */
 .card {
     background: white;
@@ -114,7 +94,6 @@ body {
     margin-bottom: 25px;
     box-shadow: var(--card-shadow);
 }
-
 .card h3 {
     margin-top: 0;
     border-left: 4px solid var(--main-color);
@@ -139,14 +118,14 @@ body {
     min-width: 120px;
 }
 
-/* (NEW) 감정 입력창 특별 스타일 */
+/* 감정 입력창 스타일 */
 #emotion-input {
-    border: 1px solid #FFADC9; /* 핑크색 테두리로 강조 */
+    border: 1px solid #FFADC9; 
     background-color: #FFF0F0;
     transition: all 0.3s ease;
 }
 
-/* 체크박스 라벨 스타일 */
+/* 체크박스 */
 .checkbox-label {
     display: flex;
     align-items: center;
@@ -160,8 +139,6 @@ body {
     font-weight: bold;
     background-color: #fff; 
 }
-
-/* 체크박스 자체 크기 조절 */
 .checkbox-label input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -179,43 +156,24 @@ body {
     cursor: pointer;
 }
 
-/* 차트 영역 */
+/* 차트 */
 .charts-wrapper {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
 }
-
 .chart-box {
     flex: 1;
     min-width: 280px;
     text-align: center;
 }
+.chart-container { height: 250px; position: relative; }
 
-.chart-container {
-    height: 250px;
-    position: relative;
-}
+/* 리스트 및 결과 */
+.dashboard-row { display: flex; gap: 25px; flex-wrap: wrap; }
+.dashboard-row > section { flex: 1; min-width: 300px; }
 
-/* 리스트 및 결과 영역 */
-.dashboard-row {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-}
-
-.dashboard-row > section {
-    flex: 1;
-    min-width: 300px;
-}
-
-/* 리스트 스타일 */
-.custom-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
+.custom-list { list-style: none; padding: 0; margin: 0; }
 .custom-list li {
     display: flex;
     justify-content: space-between;
@@ -223,14 +181,12 @@ body {
     padding: 15px 0;
     border-bottom: 1px dashed var(--border-color);
 }
-
 .custom-list li.impulse {
     background-color: #FFF0F0;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 8px;
 }
-
 .delete-btn {
     margin-left: 10px;
     color: #FF6B6B;
@@ -240,7 +196,6 @@ body {
     font-size: 16px;
 }
 
-/* AI 결과 */
 #result {
     background-color: #F8F9FA;
     padding: 20px;
@@ -251,7 +206,7 @@ body {
     color: #444;
 }
 
-/* 요약 카드 스타일 */
+/* 요약 카드 */
 .summary-wrapper {
     display: flex;
     justify-content: space-around;
@@ -259,7 +214,6 @@ body {
     margin-top: 15px;
     flex-wrap: wrap;
 }
-
 .stat-box {
     background-color: #F8F9FA;
     padding: 15px;
@@ -268,14 +222,12 @@ body {
     flex: 1;
     min-width: 100px;
 }
-
 .stat-title {
     display: block;
     font-size: 13px;
     color: #888;
     margin-bottom: 5px;
 }
-
 .stat-value {
     display: block;
     font-size: 18px;
@@ -283,7 +235,7 @@ body {
     color: #333;
 }
 
-/* 목표 입력창 디자인 */
+/* 목표 입력창 */
 #goal-input {
     width: 60px;
     padding: 5px;
@@ -295,58 +247,28 @@ body {
     font-weight: bold;
     color: #333;
 }
+#goal-input:focus { outline: none; border-bottom: 2px solid #6C5CE7; }
+.goal-box { border: 1px solid #eee; background-color: #fff; }
 
-#goal-input:focus {
-    outline: none;
-    border-bottom: 2px solid #6C5CE7;
-}
-
-.goal-box {
-    border: 1px solid #eee;
-    background-color: #fff;
-}
+/* 모바일 버튼 */
+.mobile-only { display: none; }
+.mobile-btn-container { width: 100%; margin-bottom: 20px; }
 
 /* =========================================
    5. 모바일 반응형
    ========================================= */
 @media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column;
-    }
-
+    .dashboard-container { flex-direction: column; }
     .sidebar {
-        width: 100%;
-        position: relative;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
+        width: 100%; position: relative; height: auto;
+        border-right: none; border-bottom: 1px solid var(--border-color);
         padding: 20px;
     }
-
-    .main-content {
-        margin-left: 0;
-        padding: 20px;
-    }
-
-    .dashboard-row {
-        flex-direction: column;
-    }
-
-    .input-group {
-        flex-direction: column;
-        align-items: stretch; 
-    }
-
-    .checkbox-label {
-        width: 100%;
-        justify-content: flex-start; 
-        margin: 10px 0;
-        padding-left: 5px;
-    }
-    
-    /* 모바일에서 감정 입력창 꽉 차게 */
-    #emotion-input {
-        width: 100% !important;
-        margin-top: 5px;
-    }
+    .main-content { margin-left: 0; padding: 20px; }
+    .dashboard-row { flex-direction: column; }
+    .input-group { flex-direction: column; align-items: stretch; }
+    .checkbox-label { width: 100%; justify-content: flex-start; margin: 10px 0; padding-left: 5px; }
+    #emotion-input { width: 100% !important; margin-top: 5px; }
+    .pc-only { display: none; }
+    .mobile-only { display: block; }
 }
