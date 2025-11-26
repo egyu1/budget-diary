@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +9,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
     <div class="dashboard-container">
-        
+
         <aside class="sidebar">
             <div class="logo">
                 <h2>절약일기</h2>
                 <p>올해는 절약왕!</p>
             </div>
-            
+
             <nav class="menu">
                 <a href="#stats" class="active"><i class="fas fa-chart-pie"></i> 소비 통계</a>
                 <a href="#input"><i class="fas fa-list"></i> 오늘의 지출</a>
@@ -32,7 +34,7 @@
         </aside>
 
         <main class="main-content">
-            
+
             <section id="input" class="card input-section">
                 <h3>오늘의 소비 기록</h3>
                 <div class="input-group">
@@ -54,7 +56,7 @@
             </section>
 
             <section class="card summary-card">
-                <h3>이달의 목표 현황 (목표: 낭비율 20% 미만)</h3>
+                <h3>이달의 목표</h3>
                 <div class="summary-wrapper">
                     <div class="stat-box">
                         <span class="stat-title">총 지출</span>
@@ -71,6 +73,14 @@
                     <div class="stat-box">
                         <span class="stat-title">목표 달성</span>
                         <span id="goal-status" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-box goal-box">
+                        <span class="stat-title">목표 낭비율(%)</span>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            <input type="number" id="goal-input" value="20" min="0" max="100">
+                            <span>% 미만</span>
+                        </div>
+                        <div id="goal-status" style="font-size: 14px; margin-top: 5px; font-weight: bold;">-</div>
                     </div>
                 </div>
             </section>
@@ -99,11 +109,13 @@
                     <ul id="expense-list" class="custom-list"></ul>
                 </section>
 
+                <!--모바일용 버튼-->
+                <!-- 
                 <div class="mobile-btn-container mobile-only">
                     <button id="analyze-button-mobile" class="ai-btn">
                         내 소비 분석하기
                     </button>
-                </div>
+                </div> -->
 
                 <section class="card ai-result-card">
                     <h3>상담사의 조언</h3>
@@ -118,4 +130,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

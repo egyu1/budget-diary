@@ -372,4 +372,30 @@ body {
         font-weight: bold;
         color: #333;
     }
+
+    /* 목표 입력창 디자인 */
+    #goal-input {
+        width: 60px;
+        padding: 5px;
+        text-align: center;
+        font-size: 16px;
+        border: none;
+        border-bottom: 2px solid #FFADC9;
+        /* 핑크색 밑줄 */
+        background-color: transparent;
+        font-weight: bold;
+        color: #333;
+    }
+
+    #goal-input:focus {
+        outline: none;
+        border-bottom: 2px solid #6C5CE7;
+        /* 클릭하면 보라색 */
+    }
+
+    /* 목표 박스 강조 */
+    .goal-box {
+        border: 1px solid #eee;
+        background-color: #fff;
+    }
 }

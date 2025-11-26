@@ -8,11 +8,12 @@ const addButton = document.getElementById('add-button');
 const expenseList = document.getElementById('expense-list');
 const resultDiv = document.getElementById('result');
 
-// 통계 표시 요소 가져오기 (NEW)
+// 통계 요소
 const totalAmountEl = document.getElementById('total-amount');
 const wasteAmountEl = document.getElementById('waste-amount');
 const wasteRateEl = document.getElementById('waste-rate');
 const goalStatusEl = document.getElementById('goal-status');
+const goalInput = document.getElementById('goal-input'); // (NEW) 목표 입력창
 
 const btnPC = document.getElementById('analyze-button-pc');
 const btnMobile = document.getElementById('analyze-button-mobile');
@@ -22,8 +23,19 @@ let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
 let monthlyChart = null; 
 let todayChart = null;
 
+// (NEW) 저장된 목표 퍼센티지 불러오기 (없으면 기본값 20)
+let userGoal = localStorage.getItem('userGoal') || 20;
+goalInput.value = userGoal;
+
 // 3. 초기 실행
 renderExpenses();
+
+// (NEW) 목표 값이 바뀌면 바로 저장하고 다시 계산
+goalInput.addEventListener('input', function() {
+    userGoal = goalInput.value;
+    localStorage.setItem('userGoal', userGoal);
+    updateSummary(); // 수치가 바뀌었으니 상태 업데이트
+});
 
 // 4. 추가하기
 addButton.addEventListener('click', function() {
@@ -60,7 +72,6 @@ function saveExpenses() {
     localStorage.setItem('expenses', JSON.stringify(expenses));
 }
 
-// 6. 화면 그리기
 function renderExpenses() {
     expenseList.innerHTML = '';
     const sortedExpenses = expenses.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -68,8 +79,6 @@ function renderExpenses() {
     sortedExpenses.forEach(function(expense) {
         const li = document.createElement('li');
         if (expense.isImpulse) li.classList.add('impulse');
-        
-        // 이모티콘 제거, 텍스트만 표시
         const impulseBadge = expense.isImpulse ? '<span style="color:#FF6B6B; font-weight:bold; margin-right:5px;">(낭비)</span>' : '';
 
         li.innerHTML = `
@@ -88,7 +97,7 @@ function renderExpenses() {
     });
     
     updateChart();
-    updateSummary(); // (NEW) 통계 업데이트 호출
+    updateSummary(); 
 }
 
 window.deleteExpense = function(id) {
@@ -97,33 +106,28 @@ window.deleteExpense = function(id) {
     renderExpenses();
 };
 
-// (NEW) 소비 요약 및 목표 달성 여부 계산 함수
+// (수정됨) 소비 요약 및 목표 달성 여부 계산 함수
 function updateSummary() {
-    // 1. 총 지출 계산
     const total = expenses.reduce((sum, item) => sum + item.price, 0);
-    
-    // 2. 낭비 금액 계산 (isImpulse가 true인 것만)
     const waste = expenses.filter(item => item.isImpulse).reduce((sum, item) => sum + item.price, 0);
-    
-    // 3. 낭비율 계산
     const rate = total === 0 ? 0 : Math.round((waste / total) * 100);
 
-    // 4. 화면 표시
     totalAmountEl.textContent = total.toLocaleString() + "원";
     wasteAmountEl.textContent = waste.toLocaleString() + "원";
     wasteRateEl.textContent = rate + "%";
 
-    // 5. 목표 달성 판단 (목표: 낭비율 20% 미만)
-    const TARGET_RATE = 20;
+    // (수정됨) 사용자가 입력한 목표값(userGoal)과 비교
     if (total === 0) {
-        goalStatusEl.textContent = "-";
-        goalStatusEl.style.color = "#333";
-    } else if (rate < TARGET_RATE) {
-        goalStatusEl.textContent = "성공";
-        goalStatusEl.style.color = "#4BC0C0"; // 성공 색상 (민트)
+        goalStatusEl.textContent = "지출 없음";
+        goalStatusEl.style.color = "#888";
+    } else if (rate < userGoal) {
+        // 목표 달성 (낭비율이 목표보다 낮음)
+        goalStatusEl.textContent = "목표 달성 중!";
+        goalStatusEl.style.color = "#4BC0C0"; // 성공 색상
     } else {
-        goalStatusEl.textContent = "실패";
-        goalStatusEl.style.color = "#FF6B6B"; // 실패 색상 (빨강)
+        // 목표 실패
+        goalStatusEl.textContent = "관리 필요!";
+        goalStatusEl.style.color = "#FF6B6B"; // 실패 색상
     }
 }
 
@@ -193,7 +197,7 @@ function updateChart() {
     });
 }
 
-// 9. AI 분석 요청 함수 (로직 업그레이드됨)
+// 9. AI 분석 요청 함수
 async function runAnalysis() {
     if (expenses.length === 0) {
         alert("분석할 내역이 없습니다!");
@@ -205,11 +209,12 @@ async function runAnalysis() {
     if(btnPC) btnPC.disabled = true;
     if(btnMobile) btnMobile.disabled = true;
 
-    // 계산된 통계 가져오기
     const total = expenses.reduce((sum, item) => sum + item.price, 0);
     const waste = expenses.filter(item => item.isImpulse).reduce((sum, item) => sum + item.price, 0);
     const rate = total === 0 ? 0 : Math.round((waste / total) * 100);
-    const goalStatus = rate < 20 ? "목표 달성 성공 (낭비율 20% 미만)" : "목표 달성 실패 (낭비율 20% 이상)";
+    
+    // (수정됨) 목표 값도 AI에게 알려줌
+    const goalStatus = rate < userGoal ? `목표(${userGoal}%) 달성 성공` : `목표(${userGoal}%) 초과 실패`;
 
     const sortedForAI = expenses.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
     const recentItems = sortedForAI.slice(0, 15);
@@ -219,6 +224,7 @@ async function runAnalysis() {
     - 총 지출: ${total}원
     - 낭비 금액: ${waste}원
     - 낭비율: ${rate}%
+    - 사용자 목표: 낭비율 ${userGoal}% 미만
     - 상태: ${goalStatus}
 
     [최근 소비 내역 (최신순)]
