@@ -9,30 +9,13 @@ const expenseList = document.getElementById('expense-list');
 const analyzeButton = document.getElementById('analyze-button');
 const resultDiv = document.getElementById('result');
 
-// [추가] 목표 관리 요소
-const goalInput = document.getElementById('goal-percent-input');
-const currentWasteRateSpan = document.getElementById('current-waste-rate');
-const goalStatusText = document.getElementById('goal-status-text');
-
 // 2. 전역 변수
 let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
 let monthlyChart = null; 
 let todayChart = null;
 
-// [추가] 목표 설정값 불러오기
-let userGoal = localStorage.getItem('userGoal') || 20;
-goalInput.value = userGoal;
-
-// [추가] 목표값 변경 이벤트 리스너
-goalInput.addEventListener('change', function() {
-    userGoal = goalInput.value;
-    localStorage.setItem('userGoal', userGoal);
-    calculateWasteStatistics(); // 목표 변경 시 상태 재계산
-});
-
 // 3. 초기 실행
 renderExpenses();
-calculateWasteStatistics(); // 초기 통계 계산
 
 // 4. 추가하기
 addButton.addEventListener('click', function() {
@@ -100,7 +83,6 @@ function renderExpenses() {
     });
     
     updateChart();
-    calculateWasteStatistics(); // 데이터 변경 시 낭비율도 재계산
 }
 
 // 7. 삭제하기
@@ -110,41 +92,7 @@ window.deleteExpense = function(id) {
     renderExpenses();
 };
 
-// [신규 기능] 낭비율 계산 및 상태 업데이트 함수
-function calculateWasteStatistics() {
-    if (expenses.length === 0) {
-        currentWasteRateSpan.innerText = "0%";
-        goalStatusText.innerText = "-";
-        goalStatusText.className = "status-text";
-        return { total: 0, waste: 0, rate: 0 };
-    }
-
-    // 전체 지출 합계
-    const totalSpend = expenses.reduce((sum, item) => sum + item.price, 0);
-    
-    // 낭비(isImpulse가 true)인 지출 합계
-    const wasteSpend = expenses.filter(item => item.isImpulse).reduce((sum, item) => sum + item.price, 0);
-
-    // 퍼센트 계산 (0으로 나누기 방지)
-    const wasteRate = totalSpend === 0 ? 0 : Math.round((wasteSpend / totalSpend) * 100);
-
-    // 화면 업데이트
-    currentWasteRateSpan.innerText = `${wasteRate}%`;
-
-    // 목표 달성 여부 확인
-    if (wasteRate <= userGoal) {
-        goalStatusText.innerText = "목표 달성 중";
-        goalStatusText.className = "status-text status-success"; // 초록색
-    } else {
-        goalStatusText.innerText = "목표 초과";
-        goalStatusText.className = "status-text status-fail"; // 빨간색
-    }
-
-    // AI에게 보낼 통계 데이터 반환
-    return { total: totalSpend, waste: wasteSpend, rate: wasteRate };
-}
-
-// 8. 차트 그리기
+// 8. 차트 그리기 (수정됨: 퍼센트 표시 로직 추가)
 function updateChart() {
     const todayDate = new Date().toISOString().split('T')[0];
     const monthTotals = { "식비": 0, "쇼핑": 0, "교통": 0, "취미": 0, "기타": 0 };
@@ -160,22 +108,29 @@ function updateChart() {
         }
     });
 
+    // (수정됨) 차트 공통 옵션: 범례 표시 & 툴팁에 퍼센트 계산
     const commonOptions = {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+            // 1. 범례(항목 이름) 표시
             legend: { 
                 display: true, 
                 position: 'top',
                 labels: { font: { size: 12 }, boxWidth: 10 }
             },
+            // 2. 툴팁에 금액과 퍼센트(%) 표시
             tooltip: {
                 callbacks: {
                     label: function(context) {
                         let label = context.label || '';
                         let value = context.raw || 0;
+                        
+                        // 전체 합계 계산
                         let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        // 퍼센트 계산
                         let percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+
                         return `${label}: ${value.toLocaleString()}원 (${percentage}%)`;
                     }
                 }
@@ -183,6 +138,7 @@ function updateChart() {
         }
     };
 
+    // 월간 도넛 차트
     const monthCtx = document.getElementById('monthlyChart').getContext('2d');
     if (monthlyChart) monthlyChart.destroy();
     monthlyChart = new Chart(monthCtx, {
@@ -195,9 +151,10 @@ function updateChart() {
                 hoverOffset: 4
             }]
         },
-        options: commonOptions
+        options: commonOptions // 위에서 만든 옵션 적용
     });
 
+    // 오늘 막대 차트
     const todayCtx = document.getElementById('todayChart').getContext('2d');
     if (todayChart) todayChart.destroy();
     todayChart = new Chart(todayCtx, {
@@ -212,7 +169,7 @@ function updateChart() {
             }]
         },
         options: {
-            ...commonOptions,
+            ...commonOptions, // 공통 옵션 상속
             scales: { y: { beginAtZero: true } }
         }
     });
@@ -227,31 +184,17 @@ analyzeButton.addEventListener("click", async function() {
     resultDiv.innerHTML = "상담사가 데이터를 분석하고 있어요... ⏳";
     analyzeButton.disabled = true;
 
-    // [중요] 계산된 통계 데이터를 가져옵니다.
-    const stats = calculateWasteStatistics();
-    
-    // [중요] AI에게 보낼 데이터 구성 (통계 정보 + 상세 내역)
-    let promptContent = `
-    [소비 통계 요약]
-    - 총 지출액: ${stats.total.toLocaleString()}원
-    - 낭비 금액: ${stats.waste.toLocaleString()}원
-    - 현재 낭비율: ${stats.rate}%
-    - 사용자 목표 낭비율: ${userGoal}%
-    - 목표 달성 여부: ${stats.rate <= userGoal ? "성공" : "실패"}
-
-    [상세 소비 내역]
-    `;
-
+    let diaryText = "최근 소비 내역입니다:\n";
     expenses.forEach(e => {
-        const marker = e.isImpulse ? "[낭비]" : "";
-        promptContent += `- ${e.date} ${marker} [${e.category}] ${e.item}: ${e.price}원\n`;
+        const marker = e.isImpulse ? "[사용자가 인정한 낭비]" : "";
+        diaryText += `- ${e.date} ${marker} [${e.category}] ${e.item}: ${e.price}원\n`;
     });
 
     try {
         const response = await fetch('/.netlify/functions/analyze', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ diary: promptContent }), 
+            body: JSON.stringify({ diary: diaryText }), 
         });
         const data = await response.json();
         if (response.status !== 200) throw new Error(data.error);
