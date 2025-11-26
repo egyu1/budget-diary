@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-GO 소비 다이어리</title>
+    <title>절약 일기 (Dashboard)</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,18 +14,18 @@
         
         <aside class="sidebar">
             <div class="logo">
-                <h2>소비 다이어리</h2>
-                <p>열심히 돈을 모으자....</p>
+                <h2>절약일기</h2>
+                <p>올해는 절약왕!</p>
             </div>
             
             <nav class="menu">
-                <a href="#" class="active"><i class="fas fa-chart-pie"></i> 소비 통계</a>
-                <a href="#"><i class="fas fa-list"></i> 오늘의 지출</a>
-                <a href="#"><i class="fas fa-history"></i> 기록 리스트</a>
+                <a href="#stats" class="active"><i class="fas fa-chart-pie"></i> 소비 통계</a>
+                <a href="#input"><i class="fas fa-list"></i> 오늘의 지출</a>
+                <a href="#list"><i class="fas fa-history"></i> 기록 리스트</a>
             </nav>
 
             <div class="sidebar-footer">
-                <button id="analyze-button" class="ai-btn">
+                <button id="analyze-button-pc" class="ai-btn pc-only">
                     내 소비 분석하기
                 </button>
             </div>
@@ -33,11 +33,10 @@
 
         <main class="main-content">
             
-            <section class="card input-section">
-                <h3>✏️ 오늘의 소비 기록</h3>
+            <section id="input" class="card input-section">
+                <h3>오늘의 소비 기록</h3>
                 <div class="input-group">
                     <input type="date" id="date-input">
-                    
                     <select id="category-input">
                         <option value="식비">식비</option>
                         <option value="쇼핑">쇼핑</option>
@@ -45,29 +44,48 @@
                         <option value="취미">취미</option>
                         <option value="기타">기타</option>
                     </select>
-                    
                     <input type="text" id="item-input" placeholder="품목 (예: 커피)">
                     <input type="number" id="price-input" placeholder="금액">
-                    
                     <label class="checkbox-label">
-                        <input type="checkbox" id="impulse-input">낭비?
+                        <input type="checkbox" id="impulse-input"> 낭비?
                     </label>
-
                     <button id="add-button">추가하기</button>
                 </div>
             </section>
 
-            <section class="card chart-card">
-                <h3>📊 소비 분석 (월간 vs 오늘)</h3>
+            <section class="card summary-card">
+                <h3>이달의 목표 현황 (목표: 낭비율 20% 미만)</h3>
+                <div class="summary-wrapper">
+                    <div class="stat-box">
+                        <span class="stat-title">총 지출</span>
+                        <span id="total-amount" class="stat-value">0원</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-title">낭비 금액</span>
+                        <span id="waste-amount" class="stat-value">0원</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-title">낭비율</span>
+                        <span id="waste-rate" class="stat-value">0%</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-title">목표 달성</span>
+                        <span id="goal-status" class="stat-value">-</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="stats" class="card chart-card">
+                <h3>소비 분석 (월간 vs 오늘)</h3>
                 <div class="charts-wrapper">
                     <div class="chart-box">
-                        <h4>📅 이번 달 비율</h4>
+                        <h4>이번 달 비율</h4>
                         <div class="chart-container">
                             <canvas id="monthlyChart"></canvas>
                         </div>
                     </div>
                     <div class="chart-box" style="border-left: 1px dashed #eee;">
-                        <h4>🌞 오늘의 지출</h4>
+                        <h4>오늘의 지출</h4>
                         <div class="chart-container">
                             <canvas id="todayChart"></canvas>
                         </div>
@@ -76,15 +94,21 @@
             </section>
 
             <div class="dashboard-row">
-                <section class="card list-card">
-                    <h3>📋 최근 지출 내역</h3>
+                <section id="list" class="card list-card">
+                    <h3>최근 지출 내역</h3>
                     <ul id="expense-list" class="custom-list"></ul>
                 </section>
+
+                <div class="mobile-btn-container mobile-only">
+                    <button id="analyze-button-mobile" class="ai-btn">
+                        내 소비 분석하기
+                    </button>
+                </div>
 
                 <section class="card ai-result-card">
                     <h3>상담사의 조언</h3>
                     <div id="result">
-                        <p>데이터를 입력하고 왼쪽의 '내 소비 분석하기' 버튼을 눌러보세요.</p>
+                        <p>데이터를 입력하고 '내 소비 분석하기' 버튼을 눌러보세요.</p>
                     </div>
                 </section>
             </div>
@@ -94,4 +118,4 @@
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
