@@ -20,11 +20,16 @@
                 <p>올해는 절약왕!</p>
             </div>
 
+            <div class="point-display">
+                <span>내 포인트</span>
+                <strong id="user-points">0 P</strong>
+            </div>
+
             <nav class="menu">
                 <a href="#stats" class="active"><i class="fas fa-chart-pie"></i> 소비 통계</a>
-                <a href="#input"><i class="fas fa-list"></i> 오늘의 지출</a>
+                <a href="#calendar"><i class="fas fa-calendar-alt"></i> 월간 달력</a> <a href="#input"><i class="fas fa-edit"></i> 오늘의 지출</a>
                 <a href="#list"><i class="fas fa-history"></i> 기록 리스트</a>
-            </nav>
+                <a href="#shop"><i class="fas fa-store"></i> 포인트 상점</a> </nav>
 
             <div class="sidebar-footer">
                 <button id="analyze-button-pc" class="ai-btn pc-only">
@@ -61,10 +66,10 @@
             </section>
 
             <section class="card summary-card">
-                <h3>이달의 목표</h3>
+                <h3>이번 주 목표 (매주 월요일 초기화)</h3>
                 <div class="summary-wrapper">
                     <div class="stat-box">
-                        <span class="stat-title">총 지출</span>
+                        <span class="stat-title">이번 주 지출</span>
                         <span id="total-amount" class="stat-value">0원</span>
                     </div>
                     <div class="stat-box">
@@ -72,38 +77,46 @@
                         <span id="waste-amount" class="stat-value">0원</span>
                     </div>
                     <div class="stat-box">
-                        <span class="stat-title">낭비율</span>
+                        <span class="stat-title">주간 낭비율</span>
                         <span id="waste-rate" class="stat-value">0%</span>
                     </div>
                     <div class="stat-box">
                         <span class="stat-title">목표 달성</span>
-                        <span id="goal-status" class="stat-value"></span> </div>
+                        <span id="goal-status" class="stat-value"></span>
+                    </div>
                     <div class="stat-box goal-box" style="display: flex; flex-direction: column; align-items: flex-start; padding-left: 20px;">
-                        <span class="stat-title">목표 낭비율(%)</span>
+                        <span class="stat-title">주간 목표 낭비율(%)</span>
                         <div style="display: flex; align-items: center; gap: 5px; margin-top: 5px;">
                             <input type="number" id="goal-input" value="20" min="0" max="100">
                             <span>% 미만</span>
                         </div>
+                        <span style="font-size: 11px; color: #999;">*달성 시 포인트 지급</span>
                     </div>
                 </div>
             </section>
 
             <section id="stats" class="card chart-card">
-                <h3>소비 분석 (월간 vs 오늘)</h3>
+                <h3>소비 분석 (월간 vs 주간)</h3>
                 <div class="charts-wrapper">
                     <div class="chart-box">
-                        <h4>이번 달 비율</h4>
+                        <h4>이번 달 카테고리</h4>
                         <div class="chart-container">
                             <canvas id="monthlyChart"></canvas>
                         </div>
                     </div>
                     <div class="chart-box" style="border-left: 1px dashed #eee;">
-                        <h4>오늘의 지출</h4>
+                        <h4>이번 주 지출 추이</h4>
                         <div class="chart-container">
                             <canvas id="todayChart"></canvas>
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <section id="calendar" class="card calendar-card">
+                <h3>월간 소비 달력</h3>
+                <div id="calendar-grid" class="calendar-grid">
+                    </div>
             </section>
 
             <div class="dashboard-row">
@@ -120,11 +133,56 @@
 
                 <section class="card ai-result-card">
                     <h3>상담사의 조언</h3>
+                    
+                    <div id="ai-persona-container" style="display: none; text-align: center; margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 15px; border: 2px solid #FFADC9;">
+                        <img id="persona-image" src="" alt="소비유형" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                        <h4 id="persona-title" style="margin: 10px 0 5px; color: #333;">분석 중...</h4>
+                        <p id="persona-desc" style="font-size: 13px; color: #666; margin: 0;">데이터를 분석하고 있습니다.</p>
+                    </div>
+
                     <div id="result">
                         <p>데이터를 입력하고 '내 소비 분석하기' 버튼을 눌러보세요.</p>
                     </div>
                 </section>
             </div>
+
+            <section id="shop" class="card shop-section">
+                <h3>포인트 상점 <span style="font-size: 14px; font-weight: normal; color: #777;">(열심히 모은 포인트로 교환하세요!)</span></h3>
+                <div class="shop-grid">
+                    <div class="shop-item" onclick="buyItem(1000, '아메리카노 쿠폰')">
+                        <div class="item-icon">☕</div>
+                        <div class="item-info">
+                            <h4>아메리카노</h4>
+                            <p>1,000 P</p>
+                        </div>
+                        <button class="buy-btn">교환</button>
+                    </div>
+                    <div class="shop-item" onclick="buyItem(3000, '조각 케이크 쿠폰')">
+                        <div class="item-icon">🍰</div>
+                        <div class="item-info">
+                            <h4>조각 케이크</h4>
+                            <p>3,000 P</p>
+                        </div>
+                        <button class="buy-btn">교환</button>
+                    </div>
+                    <div class="shop-item" onclick="buyItem(5000, '영화 관람권')">
+                        <div class="item-icon">🎬</div>
+                        <div class="item-info">
+                            <h4>영화 관람권</h4>
+                            <p>5,000 P</p>
+                        </div>
+                        <button class="buy-btn">교환</button>
+                    </div>
+                    <div class="shop-item" onclick="buyItem(10000, '백화점 상품권')">
+                        <div class="item-icon">🎁</div>
+                        <div class="item-info">
+                            <h4>백화점 상품권</h4>
+                            <p>10,000 P</p>
+                        </div>
+                        <button class="buy-btn">교환</button>
+                    </div>
+                </div>
+            </section>
 
         </main>
     </div>
