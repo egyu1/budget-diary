@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>절약 일기 (Dashboard)</title>
+    <title>AI-GO</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,8 +16,8 @@
 
         <aside class="sidebar">
             <div class="logo">
-                <h2>절약일기</h2>
-                <p>올해는 절약왕!</p>
+                <h2>절약 일기</h2>
+                <p>AI-GO</p>
             </div>
 
             <div class="point-display">
@@ -27,9 +27,11 @@
 
             <nav class="menu">
                 <a href="#stats" class="active"><i class="fas fa-chart-pie"></i> 소비 통계</a>
-                <a href="#calendar"><i class="fas fa-calendar-alt"></i> 월간 달력</a> <a href="#input"><i class="fas fa-edit"></i> 오늘의 지출</a>
+                <a href="#calendar"><i class="fas fa-calendar-alt"></i> 월간 달력</a>
+                <a href="#input"><i class="fas fa-edit"></i> 오늘의 지출</a>
                 <a href="#list"><i class="fas fa-history"></i> 기록 리스트</a>
-                <a href="#shop"><i class="fas fa-store"></i> 포인트 상점</a> </nav>
+                <a href="#shop"><i class="fas fa-store"></i> 포인트 상점</a>
+            </nav>
 
             <div class="sidebar-footer">
                 <button id="analyze-button-pc" class="ai-btn pc-only">
@@ -66,7 +68,7 @@
             </section>
 
             <section class="card summary-card">
-                <h3>이번 주 목표 (매주 월요일 초기화)</h3>
+                <h3>이번 주 목표 <span style="font-size: 12px; font-weight: normal; color: #777;">(월요일 마다 포인트를 받을 수 있어요!)</span></h3>
                 <div class="summary-wrapper">
                     <div class="stat-box">
                         <span class="stat-title">이번 주 지출</span>
@@ -116,7 +118,7 @@
             <section id="calendar" class="card calendar-card">
                 <h3>월간 소비 달력</h3>
                 <div id="calendar-grid" class="calendar-grid">
-                    </div>
+                </div>
             </section>
 
             <div class="dashboard-row">
@@ -134,14 +136,31 @@
                 <section class="card ai-result-card">
                     <h3>상담사의 조언</h3>
                     
+                    <div class="persona-selector">
+                        <label class="persona-option">
+                            <input type="radio" name="ai-persona" value="T" checked>
+                            <span class="persona-box type-t">
+                                <strong>냉철한 팩폭러</strong>
+                                <small>논리적인 분석</small>
+                            </span>
+                        </label>
+                        <label class="persona-option">
+                            <input type="radio" name="ai-persona" value="F">
+                            <span class="persona-box type-f">
+                                <strong>따뜻한 친구</strong>
+                                <small>공감과 위로</small>
+                            </span>
+                        </label>
+                    </div>
+
                     <div id="ai-persona-container" style="display: none; text-align: center; margin-bottom: 20px; padding: 15px; background: #fff; border-radius: 15px; border: 2px solid #FFADC9;">
-                        <img id="persona-image" src="" alt="소비유형" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                        <img id="persona-image" src="" alt="소비유형">
                         <h4 id="persona-title" style="margin: 10px 0 5px; color: #333;">분석 중...</h4>
                         <p id="persona-desc" style="font-size: 13px; color: #666; margin: 0;">데이터를 분석하고 있습니다.</p>
                     </div>
 
                     <div id="result">
-                        <p>데이터를 입력하고 '내 소비 분석하기' 버튼을 눌러보세요.</p>
+                        <p>상담사 스타일을 선택하고 '내 소비 분석하기' 버튼을 눌러보세요.</p>
                     </div>
                 </section>
             </div>
